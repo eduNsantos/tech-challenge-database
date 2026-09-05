@@ -29,3 +29,14 @@ resource "aws_db_subnet_group" "default" {
     Name = "Main subnet group"
   }
 }
+
+# Regra adicional, independente do SG existente (data source): libera 3306 para
+# toda a VPC como default temporário até sabermos o SG do Lambda de autenticação.
+resource "aws_vpc_security_group_ingress_rule" "rds_mysql_from_vpc" {
+  security_group_id = data.aws_security_group.rds.id
+  ip_protocol       = "tcp"
+  from_port         = 3306
+  to_port           = 3306
+  cidr_ipv4         = data.aws_vpc.main.cidr_block
+  description       = "MySQL access from within the VPC (temporary, for tech-challenge-lambda-functions)"
+}
