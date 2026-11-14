@@ -13,7 +13,7 @@ resource "aws_db_instance" "rds" {
   parameter_group_name   = "default.mysql8.0"
   skip_final_snapshot    = true
   publicly_accessible    = true
-  storage_type           = "gp2"
+  storage_type           = "gp3"
   backup_retention_period = 0
   delete_automated_backups = true
   monitoring_interval    = 0
